@@ -1,27 +1,22 @@
 using System;
 using System.Collections.Generic;
+using DesignPatternChallenge.src.Models;
 
 namespace DesignPatternChallenge.Models
 {
-    public class MenuGroup
+    public class MenuGroup : MenuSystem
     {
-        public string Title { get; set; }
-        public string Icon { get; set; }
-        public bool IsActive { get; set; }
         public List<MenuItem> Items { get; set; }
         public List<MenuGroup> SubGroups { get; set; }
 
-        public MenuGroup(string title, string icon = "")
+        public MenuGroup(string title, string icon = "") : base(title, icon)
         {
-            Title = title;
-            Icon = icon;
-            IsActive = true;
             Items = new List<MenuItem>();
             SubGroups = new List<MenuGroup>();
         }
 
         // Problema: Lógica complexa para renderizar itens e subgrupos
-        public void Render(int indent = 0)
+        public override void Render(int indent = 0)
         {
             var indentation = new string(' ', indent * 2);
             var activeStatus = IsActive ? "✓" : "✗";
@@ -40,7 +35,7 @@ namespace DesignPatternChallenge.Models
         }
 
         // Problema: Contagem recursiva complexa
-        public int CountItems()
+        public override int CountItems()
         {
             int count = 0;
 
