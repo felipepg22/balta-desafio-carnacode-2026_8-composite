@@ -17,27 +17,27 @@ namespace DesignPatternChallenge
             var manager = new MenuManager();
 
             // Item simples no nível raiz
-            manager.AddItem(new MenuItem("Home", "/", "🏠"));
+            manager.Add(new MenuItem("Home", "/", "🏠"));
 
             // Grupo com itens
             var productsMenu = new MenuGroup("Produtos", "📦");
-            productsMenu.Items.Add(new MenuItem("Todos", "/produtos"));
-            productsMenu.Items.Add(new MenuItem("Categorias", "/categorias"));
-            productsMenu.Items.Add(new MenuItem("Ofertas", "/ofertas"));
+            productsMenu.Add(new MenuItem("Todos", "/produtos"));
+            productsMenu.Add(new MenuItem("Categorias", "/categorias"));
+            productsMenu.Add(new MenuItem("Ofertas", "/ofertas"));
 
             // Subgrupo dentro de grupo
             var clothingMenu = new MenuGroup("Roupas", "👕");
-            clothingMenu.Items.Add(new MenuItem("Camisetas", "/roupas/camisetas"));
-            clothingMenu.Items.Add(new MenuItem("Calças", "/roupas/calcas"));
-            productsMenu.SubGroups.Add(clothingMenu);
+            clothingMenu.Add(new MenuItem("Camisetas", "/roupas/camisetas"));
+            clothingMenu.Add(new MenuItem("Calças", "/roupas/calcas"));
+            productsMenu.Add(clothingMenu);
 
-            manager.AddGroup(productsMenu);
+            manager.Add(productsMenu);
 
             // Outro grupo
             var adminMenu = new MenuGroup("Administração", "⚙️");
-            adminMenu.Items.Add(new MenuItem("Usuários", "/admin/usuarios"));
-            adminMenu.Items.Add(new MenuItem("Configurações", "/admin/config"));
-            manager.AddGroup(adminMenu);
+            adminMenu.Add(new MenuItem("Usuários", "/admin/usuarios"));
+            adminMenu.Add(new MenuItem("Configurações", "/admin/config"));
+            manager.Add(adminMenu);
 
             manager.RenderMenu();
 

@@ -1,21 +1,22 @@
 using System;
 
-namespace DesignPatternChallenge.src.Models;
-
-public abstract class MenuSystem
+namespace DesignPatternChallenge.Models
 {
-    public string Title { get; }
-    public string Icon { get; }
-    public bool IsActive { get; set;}
-
-    protected MenuSystem(string title, string icon)
+    public abstract class MenuSystem
     {
-        Title = title;
-        Icon = icon;
-        IsActive = true;
+        public string Title { get; }
+        public string Icon { get; }
+        public bool IsActive { get; set; }
+
+        protected MenuSystem(string title, string icon)
+        {
+            Title = title;
+            Icon = icon;
+            IsActive = true;
+        }
+
+        public abstract void Render(int indent = 0);
+
+        public abstract int CountItems();
     }
-
-    public abstract void Render(int ident = 0);
-
-    public abstract int CountItems();
 }

@@ -6,88 +6,71 @@ namespace DesignPatternChallenge.Managers
 {
     public class MenuManager
     {
-        private List<MenuItem> _topLevelItems;
-        private List<MenuGroup> _topLevelGroups;
+        private readonly List<MenuSystem> _rootMenus;
 
         public MenuManager()
         {
-            _topLevelItems = new List<MenuItem>();
-            _topLevelGroups = new List<MenuGroup>();
+            _rootMenus = new List<MenuSystem>();
         }
 
-        // Problema: Precisa gerenciar dois tipos diferentes no nível raiz
-        public void AddItem(MenuItem item)
+        public void Add(MenuSystem menu)
         {
-            _topLevelItems.Add(item);
+            _rootMenus.Add(menu);
         }
 
-        public void AddGroup(MenuGroup group)
-        {
-            _topLevelGroups.Add(group);
-        }
-
-        // Problema: Renderização trata itens e grupos separadamente
         public void RenderMenu()
         {
             Console.WriteLine("=== Menu Principal ===\n");
 
-            foreach (var item in _topLevelItems)
+            foreach (var menu in _rootMenus)
             {
-                item.Render();
-            }
-
-            foreach (var group in _topLevelGroups)
-            {
-                group.Render();
+                menu.Render();
             }
         }
 
-        // Problema: Operações precisam iterar sobre ambas as coleções
         public int GetTotalItems()
         {
-            int count = _topLevelItems.Count;
+            int count = 0;
 
-            foreach (var group in _topLevelGroups)
+            foreach (var menu in _rootMenus)
             {
-                count += group.CountItems();
+                count += menu.CountItems();
             }
 
             return count;
         }
 
-        // Problema: Busca em toda hierarquia é complicada
-        public MenuItem FindItemByUrl(string url)
+        public MenuItem? FindItemByUrl(string url)
         {
-            foreach (var item in _topLevelItems)
+            foreach (var menu in _rootMenus)
             {
-                if (item.Url == url)
-                    return item;
-            }
-
-            foreach (var group in _topLevelGroups)
-            {
-                // Precisa buscar recursivamente em cada grupo
-                var found = FindInGroup(group, url);
+                var found = FindInNode(menu, url);
                 if (found != null)
+                {
                     return found;
+                }
             }
 
             return null;
         }
 
-        private MenuItem FindInGroup(MenuGroup group, string url)
+        private MenuItem? FindInNode(MenuSystem menu, string url)
         {
-            foreach (var item in group.Items)
+            if (menu is MenuItem item)
             {
-                if (item.Url == url)
-                    return item;
+                return item.Url == url ? item : null;
             }
 
-            foreach (var subGroup in group.SubGroups)
+            if (menu is MenuGroup group)
             {
-                var found = FindInGroup(subGroup, url);
-                if (found != null)
-                    return found;
+                foreach (var child in group.Children)
+                {
+                    var found = FindInNode(child, url);
+                    if (found != null)
+                    {
+                        return found;
+                    }
+                }
             }
 
             return null;

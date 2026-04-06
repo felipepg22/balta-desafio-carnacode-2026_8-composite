@@ -1,5 +1,4 @@
 using System;
-using DesignPatternChallenge.src.Models;
 
 namespace DesignPatternChallenge.Models
 {
